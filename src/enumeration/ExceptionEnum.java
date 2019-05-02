@@ -1,8 +1,8 @@
 package enumeration;
 
 public enum ExceptionEnum {
-    DATABASE_UNLINK("数据库连接已断开");
-
+    DATABASE_UNLINK("数据库连接处于断开状态"),
+    PARAMETER_ERROR("参数错误");
 
     private String exception_message;
 

@@ -2,7 +2,6 @@ package database;
 
 import enumeration.DataBaseEnum;
 import enumeration.ExceptionEnum;
-
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -58,7 +57,7 @@ public class LinkDatabase {
      *  返回： 1.返回带正确值的PreparedStatement 2.返回空值
      * */
 
-    public PreparedStatement getPreparedStatement(String generalsqlstatement) throws Exception {
+    public PreparedStatement getPreparedStatement(String generalsqlstatement) {
         PreparedStatement preparedStatement = null;
         if(generalsqlstatement != null) {
             try {
@@ -73,7 +72,11 @@ public class LinkDatabase {
                 e.printStackTrace();
             }
         }else {
-            throw new Exception(ExceptionEnum.PARAMETER_ERROR.getException_message());
+            try {
+                throw new Exception(ExceptionEnum.PARAMETER_ERROR.getException_message());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return preparedStatement;
     }
