@@ -2,6 +2,7 @@ package enumeration;
 
 public enum ExamFiledEnum {
     NAME("","","");
+
     private String filed_name;
     private String filed_type;
     private String filed_limit;

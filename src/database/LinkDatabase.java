@@ -82,9 +82,9 @@ public class LinkDatabase {
     }
 
     /**
-     *  功能：  关闭与数据库的连接。
+     *  功能：  1.关闭与数据库的连接。
      *  异常：  1.数据库连接早已关闭，重复调用，发生异常。 2.数据库连接关闭异常。
-     *  返回：  无返回值。
+     *  返回：  1.无返回值。
      * */
 
     public void close() {
@@ -100,6 +100,76 @@ public class LinkDatabase {
             try {
                 throw new SQLException(ExceptionEnum.DATABASE_UNLINK.getException_message());
             } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     *  功能： 1.设置预处理语句中的站位符为String的地方
+     *  异常： 1.参数异常，不符合规则。2.如果 Index 不对应于 SQL 语句中的参数标记下标；如果发生数据库访问错误，或者在关闭的 PreparedStatement 上调用此方法
+     *  返回： 1. null。
+     * */
+
+    public void setString(PreparedStatement preparedStatement, int index, String parameter) {
+        if(preparedStatement != null && parameter != null && index >=1) {
+            try {
+                preparedStatement.setString(index,parameter);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+        }else {
+            try {
+                throw new Exception(ExceptionEnum.PARAMETER_ERROR.getException_message());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     *  功能： 1.设置预处理语句中的占位符为 Double 的地方
+     *  异常： 1.参数异常，不符合规则。2.如果 Index 不对应于 SQL 语句中的参数标记下标；如果发生数据库访问错误，或者在关闭的 PreparedStatement 上调用此方法
+     *  返回： 1.null
+     * */
+
+    public void setDouble(PreparedStatement preparedStatement, int index, double parameter) {
+        if(preparedStatement != null && index >=1 && parameter >= 0) {
+            try {
+                preparedStatement.setDouble(index,parameter);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+        }else {
+            try {
+                throw new Exception(ExceptionEnum.PARAMETER_ERROR.getException_message());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     *  功能： 1.设置预处理语句中的占位符为 int 的地方
+     *  异常： 1.参数异常，不符合规则。2.如果 Index 不对应于 SQL 语句中的参数标记下标；如果发生数据库访问错误，或者在关闭的 PreparedStatement 上调用此方法
+     *  返回： 1.null
+     * */
+
+    public void setInt(PreparedStatement preparedStatement, int index, int parameter) {
+        if(preparedStatement != null && index >=1 && parameter >= 0) {
+            try {
+                preparedStatement.setInt(index,parameter);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }else {
+            try {
+                throw new Exception(ExceptionEnum.PARAMETER_ERROR.getException_message());
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
