@@ -9,6 +9,7 @@ import java.util.Properties;
 import java.sql.Connection;
 
 public class LinkDatabase {
+    // 数据库连接
     private Connection connection = null;
 
     /**

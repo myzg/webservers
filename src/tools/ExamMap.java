@@ -12,8 +12,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ExamMap {
+    //  数据库链接
     private LinkDatabase database_link = null;
+    //  考试映射
     private HashMap<String,String> exam_map = null;
+    //  考试次序号
     private ArrayList<Integer> exam_id = null;
 
     /**

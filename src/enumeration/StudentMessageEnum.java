@@ -1,5 +1,8 @@
 package enumeration;
-
+/**
+ *
+ *  学生信息字段设置；
+ * */
 public enum StudentMessageEnum {
     NAME("","","");
 
