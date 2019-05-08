@@ -1,6 +1,7 @@
 package serverlets;
 
 import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -21,7 +22,6 @@ public class Servlet_log extends HttpServlet {
         ServletContext context = getServletContext() ;
         if(log_property_map != null) {
             String web_path = context.getRealPath("/");
-            System.out.println("得到的路径"+web_path);
             String log_config_file_path = web_path + log_property_map;
             File log_config_file = new File(log_config_file_path);
             if(log_config_file.exists()) {

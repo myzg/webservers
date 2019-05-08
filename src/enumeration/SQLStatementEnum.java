@@ -1,7 +1,7 @@
 package enumeration;
 
 public enum SQLStatementEnum {
-    EXAMMAP_RESEARCH("select * from exammap");
+    EXAMMAP_RESEARCH("");
 
     private String sqlstatement;
 

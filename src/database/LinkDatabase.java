@@ -2,22 +2,20 @@ package database;
 
 import enumeration.DataBaseEnum;
 import enumeration.ExceptionEnum;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import org.apache.log4j.Logger;
+
+import java.sql.*;
 import java.util.Properties;
-import java.sql.Connection;
 
 public class LinkDatabase {
     // 数据库连接
-    private Connection connection = null;
+    public static Logger log = Logger.getLogger(LinkDatabase.class);
 
     /**
      *   功能： 构造函数
      * */
 
     public LinkDatabase() {
-        init();
     }
 
     /**
@@ -25,7 +23,8 @@ public class LinkDatabase {
      *  异常： 1.没有找到加载器类名。 2.发生数据库访问错误。 3.数据库连接失败，没有成功赋值连接。
      * */
 
-    private void init() {
+    public PreparedStatement init(String generalsqlstatement) {
+        Connection connection = null;
         try {
             Class.forName(DataBaseEnum.DRIVER.getValues());
             Properties props = new Properties();
@@ -36,8 +35,10 @@ public class LinkDatabase {
             }
             connection = DriverManager.getConnection(DataBaseEnum.URl.getValues(),props);
         } catch (ClassNotFoundException e) {
+            log.error(ExceptionEnum.PARAMETER_ERROR.getException_message());
             e.printStackTrace();
         } catch (SQLException e) {
+            log.error(ExceptionEnum.VISIT_DATABASE_EXCEPTION.getException_message());
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
@@ -46,21 +47,23 @@ public class LinkDatabase {
                 try {
                     throw new Exception(ExceptionEnum.DATABASE_UNLINK.getException_message());
                 } catch (Exception e) {
+                    log.error(ExceptionEnum.DATABASE_UNLINK.getException_message());
                     e.printStackTrace();
                 }
             }
         }
+        return getPreparedStatement(connection, generalsqlstatement);
     }
 
     /**
      *  功能： 1.得到预备处理的 statement  （PreparedStatement）
-     *  异常： 1.方法参数异常 2.数据库连接已经断开且不再活跃，此时再次尝试连接产生异常
+     *  异常： 1.方法参数异常 2.数据库连接已经断开且不再活跃，此时再次尝试连接产生异常 3.如果发生数据库访问错误，或者在关闭的连接上调用此方法
      *  返回： 1.返回带正确值的PreparedStatement 2.返回空值
      * */
 
-    public PreparedStatement getPreparedStatement(String generalsqlstatement) {
+    private PreparedStatement getPreparedStatement(Connection connection, String generalsqlstatement) {
         PreparedStatement preparedStatement = null;
-        if(generalsqlstatement != null) {
+        if(generalsqlstatement != null && connection != null) {
             try {
                 if(connection.isValid(3000)) {
                     preparedStatement = connection.prepareStatement(generalsqlstatement);
@@ -68,6 +71,7 @@ public class LinkDatabase {
                     throw new SQLException(ExceptionEnum.DATABASE_UNLINK.getException_message());
                 }
             } catch (SQLException e) {
+                log.error(ExceptionEnum.DATABASE_UNLINK.getException_message());
                 e.printStackTrace();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -76,6 +80,7 @@ public class LinkDatabase {
             try {
                 throw new Exception(ExceptionEnum.PARAMETER_ERROR.getException_message());
             } catch (Exception e) {
+                log.error(ExceptionEnum.PARAMETER_ERROR.getException_message());
                 e.printStackTrace();
             }
         }
@@ -88,7 +93,7 @@ public class LinkDatabase {
      *  返回：  1.无返回值。
      * */
 
-    public void close() {
+    public void close(Connection connection) {
         if(connection != null) {
             try {
                 connection.close();

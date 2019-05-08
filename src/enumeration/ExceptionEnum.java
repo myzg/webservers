@@ -3,7 +3,8 @@ package enumeration;
 public enum ExceptionEnum {
     DATABASE_UNLINK("数据库连接处于断开状态"),
     PARAMETER_ERROR("参数错误"),
-    INIT_EXCEPTION("数据初始化异常");
+    INIT_EXCEPTION("数据初始化异常"),
+    VISIT_DATABASE_EXCEPTION("数据库访问异常");
 
     private String exception_message;
 
