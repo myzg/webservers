@@ -2,10 +2,20 @@ package logicbean;
 
 import serverinterface.StructLanguage;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
-public class Research implements StructLanguage {
+public class Research extends MysqlServer implements StructLanguage {
+
+
+    public Research(HttpServletRequest request, ServletConfig config) {
+        super(request,config);
+    }
 
     @Override
     public String getStatement(HttpServletRequest request) {
@@ -51,5 +61,34 @@ public class Research implements StructLanguage {
     }
 
 
+    @Override
+    public Statement getStatement() {
+        String sqlstatement = null;
+        sqlstatement = getStatement(request);
+        if(sqlstatement != null) {
+            PreparedStatement functionstatement = null;
+            try {
+                functionstatement = connection.prepareStatement(sqlstatement);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            if(functionstatement != null) {
+                return functionstatement;
+            }else{
+                return null;
+            }
+        }else {
+            return null;
+        }
+    }
 
+    @Override
+    public Object execute() {
+        ResultSet result = null;
+        PreparedStatement preparedStatement = null;
+        if(statement != null) {
+            preparedStatement = (PreparedStatement)statement;
+        }
+        return null;
+    }
 }

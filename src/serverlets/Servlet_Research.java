@@ -27,7 +27,7 @@ public class Servlet_Research extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int tag = -1;
         String sqlstatement = null;
-        StructLanguage factory = new Research();
+        StructLanguage factory = null;
         sqlstatement = factory.getStatement(request);
         tag = Integer.parseInt(request.getParameter("tag").trim());
         if(sqlstatement != null && tag != -1) {
